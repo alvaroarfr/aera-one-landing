@@ -1,0 +1,247 @@
+:root { --accent: #a8d8f0; --good: #62cf90; }
+* { box-sizing: border-box; }
+html { background: #040405; }
+body { margin: 0; background: #040405; color: #f4f4f5; font-family: "Oakes Grotesk", "Hanken Grotesk", "Helvetica Neue", Helvetica, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: #f4f4f5; text-decoration: none; }
+a:hover { color: var(--accent); }
+::selection { background: rgba(168,216,240,0.25); }
+input { font-family: inherit; }
+@keyframes aeraScrollLine { 0% { transform: scaleY(0); transform-origin: top; } 45% { transform: scaleY(1); transform-origin: top; } 55% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+@keyframes aeraBreath { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+@keyframes aeraSweep { 0% { transform: translateX(-120%) skewX(-12deg); } 100% { transform: translateX(320%) skewX(-12deg); } }
+
+/* ---------------------------------------------------------------------
+   Mobile navigation
+
+   The rest of the page has no media queries (inline styles only) and does
+   its two layouts from JS. The nav is the one place where CSS is the right
+   tool: it has to be correct before the GSAP bundle boots, and it needs
+   hover/pointer/reduced-motion queries that inline styles can't express.
+
+   Below 900px — the same width the hero and tech layouts switch at, so the
+   whole page changes mode once — the header row collapses to logo + shop +
+   a two-rule burger, and the four section links move into a full-screen
+   panel anchored to the BOTTOM of the viewport, where a thumb actually
+   reaches. The panel sits at z-index 7900, under the 8000 header, so the
+   logo stays put and the burger morphs into the close control in place.
+   --------------------------------------------------------------------- */
+
+.aera-header { gap: clamp(12px, 3vw, 24px); }
+.aera-nav-links { display: flex; }
+.aera-nav-actions { display: flex; align-items: center; gap: clamp(10px, 2vw, 18px); }
+.aera-nav-cta { display: flex; }
+.aera-nav-cta__arrow { display: flex; }
+.aera-burger { display: none; }
+
+@media (max-width: 899px) {
+  /* The hero is a ScrollTrigger pin target, and pinning records the element's
+     inline padding and writes it back on every refresh — which silently undid
+     initHeroLayout's mobile padding. The stacked hero needs its band to reach
+     the section edge, so the value has to outrank that write from the sheet. */
+  #top { padding: 108px clamp(20px, 5vw, 40px) 0 !important; }
+
+  .aera-nav-links { display: none; }
+  .aera-burger { display: flex; }
+  /* Shop stays on the bar: it's the page's one transactional action and
+     burying it behind a tap would be hiding function, not adapting it. */
+  .aera-nav-cta { gap: 10px; font-size: 14px; min-height: 44px; transition: opacity 0.3s ease 0.12s; }
+  /* The label must never wrap to two lines; the circle gives way first. */
+  .aera-nav-cta__label { white-space: nowrap; }
+  /* While the panel is up it carries its own Shop now, one thumb-length away.
+     Two of them on screen is just duplication, so the bar drops its copy. */
+  .aera-header[data-menu="open"] .aera-nav-cta {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+  }
+}
+
+/* A 100vh hero on a landscape phone has room for the headline or the product,
+   not both — at 360px tall the band collapses to a 26px sliver. The product
+   opens the very next section, so here the type keeps the fold to itself. */
+@media (max-width: 899px) and (max-height: 520px) {
+  #top { padding-top: 84px !important; justify-content: center !important; }
+  .aera-hero-band { display: none; }
+}
+
+/* At 320px and other very narrow or zoomed viewports the label alone carries
+   the meaning; the circle is what gives way. */
+@media (max-width: 359px) {
+  .aera-nav-cta__arrow { display: none; }
+}
+
+.aera-burger {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  align-items: center;
+  justify-content: flex-end;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.aera-burger__box { position: relative; display: block; width: 26px; height: 12px; }
+.aera-burger__bar {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: rgba(255,255,255,0.86);
+  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+.aera-burger__bar:nth-child(1) { top: 0; }
+.aera-burger__bar:nth-child(2) { top: 11px; }
+.aera-burger[aria-expanded="true"] .aera-burger__bar:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+.aera-burger[aria-expanded="true"] .aera-burger__bar:nth-child(2) { transform: translateY(-5.5px) rotate(-45deg); }
+
+.aera-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 7900;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: rgba(4,4,5,0.94);
+  -webkit-backdrop-filter: blur(26px);
+  backdrop-filter: blur(26px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.32s cubic-bezier(0.22,1,0.36,1), visibility 0s linear 0.32s;
+}
+.aera-menu[data-open="true"] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.35s cubic-bezier(0.22,1,0.36,1), visibility 0s linear 0s;
+}
+/* Escape hatch for a stalled paint (backgrounded tab, throttled renderer): a
+   transition that never advances would leave the panel invisible while it still
+   holds focus. See initMenu — the class is added only if the fade misses. */
+.aera-menu.is-instant,
+.aera-menu.is-instant * { transition: none !important; }
+.aera-menu__inner {
+  width: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 4vh, 40px);
+  /* Same gutter expression as the header, so the links line up under the logo. */
+  padding: 108px clamp(20px, 4vw, 60px) max(30px, env(safe-area-inset-bottom));
+}
+.aera-menu__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+.aera-menu__item { overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.aera-menu__link {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  padding: clamp(12px, 2vh, 20px) 2px;
+  font-size: clamp(28px, 7.4vw, 42px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: rgba(255,255,255,0.9);
+  transform: translateY(110%);
+  transition: transform 0.8s cubic-bezier(0.16,1,0.3,1), color 0.3s ease;
+}
+.aera-menu[data-open="true"] .aera-menu__link {
+  transform: translateY(0);
+  transition-delay: calc(var(--i, 0) * 0.055s + 0.06s);
+}
+.aera-menu__cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 56px;
+  padding: 14px 14px 14px 26px;
+  border: 1px solid rgba(255,255,255,0.42);
+  border-radius: 999px;
+  font-size: 16px;
+  color: #ffffff;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1), background 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+}
+.aera-menu[data-open="true"] .aera-menu__cta {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.3s, 0.3s, 0s, 0s, 0s;
+}
+.aera-menu__dot {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  transition: background 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+}
+
+/* Landscape phones: the panel has to fit a 380px-tall viewport. */
+@media (max-height: 540px) {
+  .aera-menu__inner { padding-top: 84px; gap: 18px; }
+  .aera-menu__link { font-size: clamp(20px, 4.6vh, 28px); padding: 8px 2px; min-height: 48px; }
+}
+
+/* Touch devices get no hover; they get :active instead. */
+@media (hover: hover) {
+  .aera-menu__link:hover { color: #ffffff; }
+  .aera-menu__cta:hover { background: #ffffff; border-color: #ffffff; color: #050505; }
+  .aera-menu__cta:hover .aera-menu__dot { border-color: rgba(5,5,5,0.28); color: #050505; }
+}
+.aera-menu__link:active { color: var(--accent); }
+.aera-menu__link:focus-visible,
+.aera-menu__cta:focus-visible,
+.aera-burger:focus-visible {
+  outline: 1px solid rgba(255,255,255,0.75);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aera-menu,
+  .aera-menu__link,
+  .aera-menu__cta,
+  .aera-burger__bar { transition-duration: 0.001s !important; transition-delay: 0s !important; }
+  .aera-menu__link { transform: none; }
+  .aera-menu__cta { opacity: 1; transform: none; }
+}
+
+/* ---------------------------------------------------------------------
+   Hover states
+
+   These were style-hover="..." attributes on the elements themselves. The
+   runtime turned each distinct declaration into one generated class and a
+   .scpN:hover rule; that is reproduced verbatim at build time, so the class
+   names and the !important flags match what the bundle emitted at runtime.
+   Every one of these elements also carries an inline style, which is why the
+   declarations have to outrank it.
+   --------------------------------------------------------------------- */
+.scp0:hover { color: #ffffff !important }
+.scp1:hover { background: #ffffff !important; border-color: #ffffff !important; color: #050505 !important; transform: translateX(3px) !important }
+.scp2:hover { border-color: #ffffff !important; background: #ffffff !important; color: #050505 !important }
+.scp3:hover { transform: translateX(3px) !important }
+.scp4:hover { border-color: rgba(255,255,255,0.28) !important }
+.scp5:hover { transform: scale(1.04) !important }
+.scp6:hover { background: #ffffff !important; border-color: #ffffff !important; color: #050505 !important }

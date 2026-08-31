@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AERA One</title>
+<meta name="description" content="AERA One is an air purifier that runs quietly enough to forget and reads the room on its own.">
+<meta name="theme-color" content="#040405">
+
+<link rel="preload" as="image" href="assets/img/hero-product.webp" fetchpriority="high">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/hanken-grotesk-latin.woff2" crossorigin>
+
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/style.css">
+
+<script src="assets/js/gsap.min.js" defer></script>
+<script src="assets/js/scrolltrigger.min.js" defer></script>
+<script src="assets/js/lenis.min.js" defer></script>
+<script src="assets/js/three.min.js" async></script>
+<script src="assets/js/app.js" defer></script>
+</head>
+<body>
+<div data-ref="grain" style="position: fixed; inset: 0; z-index: 9000; pointer-events: none; opacity: 0.05; mix-blend-mode: overlay; background-image: url(&quot;data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'160'%20height%3D'160'%3E%3Cfilter%20id%3D'n'%3E%3CfeTurbulence%20type%3D'fractalNoise'%20baseFrequency%3D'0.85'%20numOctaves%3D'3'%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D'100%25'%20height%3D'100%25'%20filter%3D'url(%23n)'%2F%3E%3C%2Fsvg%3E&quot;);"></div>
+
+<div data-ref="loader" style="position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: #070708;">
+  <img width="733" height="116" fetchpriority="high" decoding="async" data-ref="loaderLogo" src="assets/img/logo.webp" alt="Aera" style="width: clamp(120px, 14vw, 200px); height: auto; opacity: 0; display: block;">
+</div>
+
+<header data-ref="nav" class="aera-header" style="position: fixed; top: 0; left: 0; right: 0; z-index: 8000; display: flex; align-items: center; justify-content: space-between; padding: 22px clamp(20px, 4vw, 60px); backdrop-filter: blur(0px); transition: background 0.5s ease, backdrop-filter 0.5s ease, border-color 0.5s ease; border-bottom: 1px solid rgba(255,255,255,0);">
+  <a href="#top" style="display: flex; align-items: center;"><img width="733" height="116" decoding="async" src="assets/img/logo.webp" alt="Aera" style="height: clamp(16px, 1.3vw, 20px); width: auto; display: block;"></a>
+  <nav class="aera-nav-links" aria-label="Sections" style="gap: clamp(18px, 3.2vw, 52px); align-items: center; font-size: 15px; color: rgba(255,255,255,0.82);">
+    <a href="#invisible" style="color: inherit; transition: color 0.3s ease;" class="scp0">About</a>
+    <a href="#design" style="color: inherit; transition: color 0.3s ease;" class="scp0">Design</a>
+    <a href="#visible" style="color: inherit; transition: color 0.3s ease;" class="scp0">Product</a>
+    <a href="#technology" style="color: inherit; transition: color 0.3s ease;" class="scp0">Technology</a>
+  </nav>
+  <div class="aera-nav-actions">
+    <a class="aera-nav-cta" href="#buy" style="align-items: center; gap: 14px; font-size: 15px;">
+      <span class="aera-nav-cta__label">Shop now</span>
+      <span class="aera-nav-cta__arrow scp1" style="width: 34px; height: 34px; flex: none; border-radius: 999px; border: 1px solid rgba(255,255,255,0.3); align-items: center; justify-content: center; font-size: 12px; transition: background 0.35s ease, border-color 0.35s ease, transform 0.35s ease;">→</span>
+    </a>
+    <button data-ref="menuBtn" class="aera-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="aera-menu">
+      <span class="aera-burger__box" aria-hidden="true"><span class="aera-burger__bar"></span><span class="aera-burger__bar"></span></span>
+    </button>
+  </div>
+</header>
+
+<div data-ref="menu" id="aera-menu" class="aera-menu" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true" data-open="false" inert="">
+  <nav data-ref="menuInner" class="aera-menu__inner" aria-label="Menu" data-lenis-prevent="">
+    <ul class="aera-menu__list">
+      <li class="aera-menu__item"><a class="aera-menu__link" style="--i: 0;" href="#invisible">About</a></li>
+      <li class="aera-menu__item"><a class="aera-menu__link" style="--i: 1;" href="#design">Design</a></li>
+      <li class="aera-menu__item"><a class="aera-menu__link" style="--i: 2;" href="#visible">Product</a></li>
+      <li class="aera-menu__item"><a class="aera-menu__link" style="--i: 3;" href="#technology">Technology</a></li>
+    </ul>
+    <a class="aera-menu__cta" href="#buy">
+      <span style="white-space: nowrap;">Shop now</span>
+      <span class="aera-menu__dot" aria-hidden="true">→</span>
+    </a>
+  </nav>
+</div>
+
+<section id="top" data-ref="hero" style="position: relative; z-index: 0; min-height: 100vh; height: 100vh; max-height: 100vh; overflow: hidden; display: flex; align-items: center; padding: 130px clamp(20px, 4vw, 60px) 80px; transform-origin: 50% 42%; will-change: transform, opacity, filter;">
+  <div data-ref="heroImg" class="aera-hero-band" style="position: absolute; inset: 0; mix-blend-mode: screen; pointer-events: none;">
+    <div data-ref="heroInner" style="width: 100%; height: 100%; will-change: transform, opacity;">
+      <img width="1672" height="941" fetchpriority="high" decoding="async" src="assets/img/hero-product.webp" alt="AERA One air purifier" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; display: block;">
+    </div>
+  </div>
+
+  <div style="position: relative; z-index: 1; width: 100%; max-width: 1560px; margin: 0 auto;">
+    <div data-ref="heroCopy" style="width: 100%; max-width: min(38vw, 640px); display: flex; flex-direction: column; align-items: flex-start; gap: clamp(20px, 2.2vw, 30px);">
+      <h1 style="margin: 0; font-size: clamp(40px, 4.1vw, 74px); font-weight: 400; line-height: 0.99; letter-spacing: -0.035em;">
+        <span style="display: block; overflow: hidden; padding-bottom: 0.04em; white-space: nowrap;"><span data-line="" style="display: block;">Breathe better.</span></span>
+        <span style="display: block; overflow: hidden; padding-bottom: 0.04em; color: rgba(255,255,255,0.5); white-space: nowrap;"><span data-line="" style="display: block;">Without thinking</span></span>
+        <span style="display: block; overflow: hidden; padding-bottom: 0.04em; color: rgba(255,255,255,0.5);"><span data-line="" style="display: block;">about it.</span></span>
+      </h1>
+      <div data-fade="" style="display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: inherit;">
+        <a href="#design" style="position: relative; overflow: hidden; display: flex; align-items: center; gap: 28px; padding: 20px 26px 20px 30px; border: 1px solid rgba(255,255,255,0.24); border-radius: 8px; font-size: 15px; color: #ffffff; background: transparent; transition: border-color 0.4s ease, background 0.4s ease, color 0.4s ease;" class="scp2">
+          <span style="white-space: nowrap;">Discover AERA One</span>
+          <span style="display: flex; align-items: center; justify-content: center; font-size: 13px; transition: transform 0.35s ease, color 0.35s ease;" class="scp3">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="invisible" data-ref="invisible" style="position: relative; z-index: 1; height: 320vh; background: #040405; box-shadow: 0 -50px 90px rgba(0,0,0,0.75);">
+  <div data-ref="invisiblePin" style="position: relative; height: 100vh; overflow: hidden; display: flex; align-items: center; padding: 0 clamp(20px, 4vw, 60px);">
+    <canvas data-ref="canvas" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block;"></canvas>
+    <div style="position: absolute; inset: 0; background: rgba(4,4,5,0.5);"></div>
+    <div style="position: absolute; inset: 0; background: radial-gradient(95% 85% at 6% 50%, rgba(4,4,5,0.94) 0%, rgba(4,4,5,0.7) 42%, rgba(4,4,5,0.2) 78%);"></div>
+
+    <div style="position: relative; width: 100%; max-width: 1560px; margin: 0 auto;">
+      <div data-ref="beat1" style="max-width: 620px; display: flex; flex-direction: column; gap: 26px;">
+        <h2 style="margin: 0; font-size: clamp(32px, 4.2vw, 64px); font-weight: 400; line-height: 1.14; letter-spacing: -0.03em; color: rgba(255,255,255,0.16);">
+          <span data-word="" style="display: inline-block; margin-right: 0.26em;">Most</span><span data-word="" style="display: inline-block; margin-right: 0.26em;">of</span><span data-word="" style="display: inline-block; margin-right: 0.26em;">what</span><span data-word="" style="display: inline-block; margin-right: 0.26em;">surrounds</span><span data-word="" style="display: inline-block; margin-right: 0.26em;">you</span><span data-word="" style="display: inline-block; margin-right: 0.26em;">is</span><span data-word="" style="display: inline-block;">invisible.</span>
+        </h2>
+        <p data-ref="beat1Copy" style="margin: 0; max-width: 430px; font-size: clamp(15px, 1.15vw, 17px); line-height: 1.7; color: rgba(255,255,255,0.58); opacity: 0;">Cooking smoke. Pollen off a jacket. Whatever the neighbours are burning. It drifts through the room all day and never once announces itself.</p>
+      </div>
+
+      <div data-ref="beat2" style="position: absolute; top: 50%; left: 0; transform: translateY(-50%); opacity: 0; max-width: 560px; display: flex; flex-direction: column; gap: 22px;">
+        <div style="display: flex; flex-direction: column; gap: 0; border-top: 1px solid rgba(255,255,255,0.1);">
+          <div style="display: flex; justify-content: space-between; gap: 20px; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: clamp(16px, 1.6vw, 22px); font-weight: 300;"><span>Fine particles</span><span style="font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.45); align-self: center; letter-spacing: 0.01em;">PM2.5</span></div>
+          <div style="display: flex; justify-content: space-between; gap: 20px; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: clamp(16px, 1.6vw, 22px); font-weight: 300;"><span>Pollen and dander</span><span style="font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.45); align-self: center; letter-spacing: 0.01em;">Allergens</span></div>
+          <div style="display: flex; justify-content: space-between; gap: 20px; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: clamp(16px, 1.6vw, 22px); font-weight: 300;"><span>Cooking and smoke</span><span style="font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.45); align-self: center; letter-spacing: 0.01em;">Odour</span></div>
+          <div style="display: flex; justify-content: space-between; gap: 20px; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: clamp(16px, 1.6vw, 22px); font-weight: 300;"><span>Paint, cleaners, new furniture</span><span style="font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.45); align-self: center; letter-spacing: 0.01em;">VOCs</span></div>
+        </div>
+      </div>
+
+      <div data-ref="beat3" style="position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-50%); opacity: 0; display: flex; justify-content: center; text-align: center;">
+        <div style="display: flex; flex-direction: column; gap: 22px; align-items: center; max-width: 720px;">
+          <h2 style="margin: 0; font-size: clamp(34px, 5vw, 76px); font-weight: 400; line-height: 1.04; letter-spacing: -0.03em;">AERA sees all of it.</h2>
+          <p style="margin: 0; max-width: 460px; font-size: clamp(15px, 1.15vw, 17px); line-height: 1.7; color: rgba(255,255,255,0.6);">A laser particle sensor and a gas sensor sample the room continuously. When something changes, the fan is already moving before you smell it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="design" style="position: relative; padding: clamp(96px, 12vh, 170px) clamp(20px, 4vw, 60px); border-top: 1px solid rgba(255,255,255,0.07); background: #070708;">
+  <div style="max-width: 1560px; margin: 0 auto; display: flex; flex-direction: column; gap: clamp(44px, 6vw, 76px);">
+    <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-end; justify-content: space-between;">
+      <div data-fade="" style="display: flex; flex-direction: column; gap: 22px; max-width: 620px;">
+        <h2 style="margin: 0; font-size: clamp(32px, 4.2vw, 64px); font-weight: 400; line-height: 1.06; letter-spacing: -0.03em;">Designed to fit beautifully anywhere.</h2>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr)); gap: clamp(18px, 2vw, 30px);">
+      <div data-card="" style="display: flex; flex-direction: column; gap: 22px;">
+        <div style="position: relative; aspect-ratio: 4 / 3; border: 1px solid rgba(255,255,255,0.09); border-radius: 4px; overflow: hidden; background-image: repeating-linear-gradient(135deg, #0c0c0e 0px, #0c0c0e 7px, #121215 7px, #121215 14px); transition: border-color 0.5s ease;" class="scp4">
+          <img width="1535" height="1024" loading="lazy" decoding="async" src="assets/img/living-room.webp" alt="AERA One in a living room" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% center; transition: transform 1.2s cubic-bezier(0.22,1,0.36,1);" class="scp5">
+          <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 42%);"></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="font-size: clamp(17px, 1.5vw, 21px); font-weight: 400;">Breathe cleaner.</div>
+          <p style="margin: 0; font-size: 15px; line-height: 1.62; color: rgba(255,255,255,0.52);">It handles the traffic of a shared room — cooking, candles, a dog on the sofa — without turning into furniture you have to explain.</p>
+        </div>
+      </div>
+
+      <div data-card="" style="display: flex; flex-direction: column; gap: 22px;">
+        <div style="position: relative; aspect-ratio: 4 / 3; border: 1px solid rgba(255,255,255,0.09); border-radius: 4px; overflow: hidden; background-image: repeating-linear-gradient(135deg, #0c0c0e 0px, #0c0c0e 7px, #121215 7px, #121215 14px); transition: border-color 0.5s ease;" class="scp4">
+          <img width="1535" height="1024" loading="lazy" decoding="async" src="assets/img/bedroom.webp" alt="AERA One in a bedroom" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 55% center; transition: transform 1.2s cubic-bezier(0.22,1,0.36,1);" class="scp5">
+          <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 42%);"></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="font-size: clamp(17px, 1.5vw, 21px); font-weight: 400;">Sleep deeper.</div>
+          <p style="margin: 0; font-size: 15px; line-height: 1.62; color: rgba(255,255,255,0.52);">Night mode drops the fan to a low hush and dims the display to a single thread of light. Nothing blinks at 3am.</p>
+        </div>
+      </div>
+
+      <div data-card="" style="display: flex; flex-direction: column; gap: 22px;">
+        <div style="position: relative; aspect-ratio: 4 / 3; border: 1px solid rgba(255,255,255,0.09); border-radius: 4px; overflow: hidden; background-image: repeating-linear-gradient(135deg, #0c0c0e 0px, #0c0c0e 7px, #121215 7px, #121215 14px); transition: border-color 0.5s ease;" class="scp4">
+          <img width="1535" height="1024" loading="lazy" decoding="async" src="assets/img/workspace.webp" alt="AERA One in a workspace" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% center; transition: transform 1.2s cubic-bezier(0.22,1,0.36,1);" class="scp5">
+          <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 42%);"></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="font-size: clamp(17px, 1.5vw, 21px); font-weight: 400;">Stay focused.</div>
+          <p style="margin: 0; font-size: 15px; line-height: 1.62; color: rgba(255,255,255,0.52);">Stale air makes an afternoon feel longer than it is. AERA keeps the room turning over so the room stops being the problem.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="visible" style="position: relative; border-top: 1px solid rgba(255,255,255,0.07); background: #050506;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); align-items: stretch;">
+    <div style="position: relative; min-height: clamp(440px, 62vh, 720px); overflow: hidden; background: #050506;">
+      <img width="739" height="1167" loading="lazy" decoding="async" data-slide-in="" src="assets/img/display-macro.webp" alt="AERA One display macro" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 22% center;">
+    </div>
+
+    <div style="display: flex; align-items: center; padding: clamp(70px, 10vh, 140px) clamp(24px, 5vw, 90px);">
+      <div data-fade="" style="display: flex; flex-direction: column; gap: 26px; max-width: 520px;">
+        <h2 style="margin: 0; font-size: clamp(30px, 3.6vw, 56px); font-weight: 400; line-height: 1.06; letter-spacing: -0.03em;">Air, made visible.</h2>
+        <p style="margin: 0; font-size: clamp(15px, 1.15vw, 17px); line-height: 1.7; color: rgba(255,255,255,0.58);">One number, lit from inside the housing. Walk past and you know where the room stands. No app, no notification, no decision to make.</p>
+        <div style="display: flex; flex-direction: column; gap: 0; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 6px;">
+          <div data-feat="" style="display: flex; gap: 18px; padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+            
+            <div style="display: flex; flex-direction: column; gap: 7px;">
+              <div style="font-size: 17px;">Auto from the first breath</div>
+              <p style="margin: 0; font-size: 14.5px; line-height: 1.6; color: rgba(255,255,255,0.5);">Plug it in and it starts reading. There's no setup flow to finish and no mode to remember to switch.</p>
+            </div>
+          </div>
+          <div data-feat="" style="display: flex; gap: 18px; padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+            
+            <div style="display: flex; flex-direction: column; gap: 7px;">
+              <div style="font-size: 17px;">Quiet as the default, not a setting</div>
+              <p style="margin: 0; font-size: 14.5px; line-height: 1.6; color: rgba(255,255,255,0.5);">The fan spends most of its life at the bottom of its range. It only gets loud when the room gives it a reason.</p>
+            </div>
+          </div>
+          <div data-feat="" style="display: flex; gap: 18px; padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+            
+            <div style="display: flex; flex-direction: column; gap: 7px;">
+              <div style="font-size: 17px;">Filter life you can read across the room</div>
+              <p style="margin: 0; font-size: 14.5px; line-height: 1.6; color: rgba(255,255,255,0.5);">The light turns amber when the filter is near the end. That's the whole maintenance story.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="technology" data-ref="tech" style="position: relative; height: 340vh; border-top: 1px solid rgba(255,255,255,0.07);">
+  <div data-ref="techPin" style="position: relative; height: 100vh; overflow: hidden; display: flex; align-items: center; padding: 90px clamp(20px, 4vw, 60px) 60px;">
+    <div data-ref="techGrid" style="position: relative; width: 100%; max-width: 1560px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: clamp(30px, 5vw, 80px); align-items: center;">
+      <div data-ref="techRingWrap" style="position: relative; display: flex; align-items: center; justify-content: center; min-height: min(52vh, 460px);">
+        <div data-ref="ringOuter" style="position: absolute; width: min(46vh, 400px); aspect-ratio: 1; border-radius: 999px; border: 1px solid rgba(255,255,255,0.18); background: radial-gradient(circle, rgba(255,255,255,0.015) 0%, rgba(255,255,255,0) 70%);"></div>
+        <div data-ref="ringMid" style="position: absolute; width: min(33vh, 288px); aspect-ratio: 1; border-radius: 999px; border: 1px solid rgba(255,255,255,0.14);"></div>
+        <div data-ref="ringInner" style="position: absolute; width: min(21vh, 184px); aspect-ratio: 1; border-radius: 999px; border: 1px solid rgba(255,255,255,0.12);"></div>
+        <div data-ref="core" style="position: absolute; width: min(7vh, 62px); aspect-ratio: 1; border-radius: 999px; background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 72%);"></div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 26px;">
+        <h2 data-ref="techTitle" style="margin: 0; font-size: clamp(30px, 3.6vw, 56px); font-weight: 400; line-height: 1.06; letter-spacing: -0.03em;">Three layers. One pass.</h2>
+        <div data-ref="techList" style="display: flex; flex-direction: column; gap: 4px;">
+          <div data-ref="layer1" style="display: flex; gap: 20px; padding: 22px 0; border-top: 1px solid rgba(255,255,255,0.12); opacity: 0.55; transition: opacity 0.4s ease;">
+            <span style="font-size: 11px; color: rgba(255,255,255,0.4); padding-top: 5px;">01</span>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="font-size: clamp(18px, 1.7vw, 24px); font-weight: 400;">Pre-filter</div>
+              <p style="margin: 0; max-width: 420px; font-size: 15px; line-height: 1.62; color: rgba(255,255,255,0.55);">Hair, lint and the dust you can see. It's washable, so the expensive layer behind it doesn't do this job.</p>
+            </div>
+          </div>
+          <div data-ref="layer2" style="display: flex; gap: 20px; padding: 22px 0; border-top: 1px solid rgba(255,255,255,0.12); opacity: 0.55; transition: opacity 0.4s ease;">
+            <span style="font-size: 11px; color: rgba(255,255,255,0.4); padding-top: 5px;">02</span>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="font-size: clamp(18px, 1.7vw, 24px); font-weight: 400;">True HEPA</div>
+              <p style="margin: 0; max-width: 420px; font-size: 15px; line-height: 1.62; color: rgba(255,255,255,0.55);">Pleated glass fibre, sealed at the edges. This is where pollen, dander and smoke particles stop travelling.</p>
+            </div>
+          </div>
+          <div data-ref="layer3" style="display: flex; gap: 20px; padding: 22px 0; border-top: 1px solid rgba(255,255,255,0.12); border-bottom: 1px solid rgba(255,255,255,0.12); opacity: 0.55; transition: opacity 0.4s ease;">
+            <span style="font-size: 11px; color: rgba(255,255,255,0.4); padding-top: 5px;">03</span>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="font-size: clamp(18px, 1.7vw, 24px); font-weight: 400;">Activated carbon</div>
+              <p style="margin: 0; max-width: 420px; font-size: 15px; line-height: 1.62; color: rgba(255,255,255,0.55);">The layer that handles smell — last night's dinner, fresh paint, the bin. Particles are only half of clean air.</p>
+            </div>
+          </div>
+        </div>
+        <p data-ref="techNote" style="margin: 0; font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.38); max-width: 420px;">Air enters at the base, turns once through all three stages, and leaves through the top. One path, no bypass.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="buy" data-ref="cta" style="position: relative; min-height: 100vh; overflow: hidden; display: flex; flex-direction: column; align-items: center; text-align: center; padding: clamp(80px, 11vh, 140px) clamp(20px, 4vw, 60px) 0; border-top: 1px solid rgba(255,255,255,0.07); background: #020203;">
+  <div style="position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: clamp(28px, 3.6vh, 46px); max-width: 900px;">
+    <h2 style="margin: 0; font-size: clamp(34px, 5.2vw, 82px); font-weight: 400; line-height: 1.02; letter-spacing: -0.038em;">
+      <span style="display: block; overflow: hidden; padding-bottom: 0.05em;"><span data-line="" style="display: block;">Make the</span></span>
+      <span style="display: block; overflow: hidden; padding-bottom: 0.05em;"><span data-line="" style="display: block;">invisible better.</span></span>
+    </h2>
+    <a data-fade="" href="#design" style="display: flex; align-items: center; gap: 26px; padding: 15px 24px 15px 30px; border: 1px solid rgba(255,255,255,0.42); border-radius: 999px; font-size: 15px; color: #ffffff; transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease;" class="scp6">
+      <span style="white-space: nowrap;">Meet AERA One</span>
+      <span style="display: flex; align-items: center; font-size: 13px; transition: transform 0.35s ease;" class="scp3">→</span>
+    </a>
+  </div>
+
+  <div style="position: relative; z-index: 1; align-self: stretch; flex: 1 1 auto; min-height: min(66vh, 760px); margin-top: clamp(-40px, -3vh, -10px); overflow: hidden; pointer-events: none;">
+    <div data-ref="ctaImg" style="position: absolute; inset: 0; opacity: 0; transform-origin: 50% 100%; will-change: transform, opacity;">
+      <img width="1536" height="1024" loading="lazy" decoding="async" src="assets/img/cta-product.webp" alt="AERA One" style="position: absolute; left: 50%; bottom: -25%; height: 145%; width: auto; max-width: none; display: block; transform: translateX(-50%);">
+    </div>
+    <div style="position: absolute; inset: 0 0 auto; height: 16%; background: linear-gradient(#020203 0%, rgba(2,2,3,0) 100%);"></div>
+  </div>
+</section>
+
+<footer id="about" style="position: relative; padding: clamp(70px, 9vh, 120px) clamp(20px, 4vw, 60px) 40px; border-top: 1px solid rgba(255,255,255,0.07); background: #040405;">
+  <div style="max-width: 1560px; margin: 0 auto; display: flex; flex-direction: column; gap: 70px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 44px;">
+      <div style="display: flex; flex-direction: column; gap: 20px; max-width: 340px;">
+        <img width="733" height="116" loading="lazy" decoding="async" src="assets/img/logo.webp" alt="Aera" style="height: 18px; width: auto; align-self: flex-start; display: block;">
+        
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: flex; flex-direction: column; gap: 10px;"><span style="font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255,255,255,0.35);">Product</span><span style="width: 20px; height: 1px; background: rgba(255,255,255,0.25);"></span></div>
+        <a href="#design" style="font-size: 14.5px; color: rgba(255,255,255,0.62); transition: color 0.3s ease;" class="scp0">AERA One</a>
+        <a href="#technology" style="font-size: 14.5px; color: rgba(255,255,255,0.62); transition: color 0.3s ease;" class="scp0">Filters</a>
+        <a href="#visible" style="font-size: 14.5px; color: rgba(255,255,255,0.62); transition: color 0.3s ease;" class="scp0">The display</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: flex; flex-direction: column; gap: 10px;"><span style="font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255,255,255,0.35);">Technology</span><span style="width: 20px; height: 1px; background: rgba(255,255,255,0.25);"></span></div>
+        <a href="#invisible" style="font-size: 14.5px; color: rgba(255,255,255,0.62); transition: color 0.3s ease;" class="scp0">Sensing</a>
+        <a href="#technology" style="font-size: 14.5px; color: rgba(255,255,255,0.62); transition: color 0.3s ease;" class="scp0">Filtration</a>
+        <a href="#visible" style="font-size: 14.5px; color: rgba(255,255,255,0.62); transition: color 0.3s ease;" class="scp0">Acoustics</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: flex; flex-direction: column; gap: 10px;"><span style="font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255,255,255,0.35);">Company</span><span style="width: 20px; height: 1px; background: rgba(255,255,255,0.25);"></span></div>
+        <a href="#about" style="font-size: 14.5px; color: rgba(255,255,255,0.62); transition: color 0.3s ease;" class="scp0">Studio</a>
+        <a href="#buy" style="font-size: 14.5px; color: rgba(255,255,255,0.62); transition: color 0.3s ease;" class="scp0">Launch list</a>
+        <a href="#about" style="font-size: 14.5px; color: rgba(255,255,255,0.62); transition: color 0.3s ease;" class="scp0">Press</a>
+      </div>
+    </div>
+    
+  </div>
+</footer>
+</body>
+</html>
